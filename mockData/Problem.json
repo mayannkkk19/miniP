@@ -1,0 +1,33 @@
+{
+    "title": "title",
+    "statement": "statement",
+    "constraints": [
+        "2 <= nums.length <= 10^5",
+        "-10^9 <= nums[i] <= 10^9",
+        "-10^9 <= target <= 10^9"
+    ],
+    "inputFormat": "inputFormat",
+    "outputFormat": "outputFormat",
+    "samples": [
+        {
+            "input": "input",
+            "output": "output",
+            "explanation": "explanation"
+        },
+        {
+            "input": "input",
+            "output": "output",
+            "explanation": "explanation"
+        },
+        {
+            "input": "input",
+            "output": "output",
+            "explanation": "explanation"
+        },
+        {
+            "input": "input",
+            "output": "output",
+            "explanation": "explanation"
+        }
+    ]
+}
