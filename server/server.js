@@ -1,8 +1,30 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+
+//routes
+const { problemRouter } = require('./routes/problem');
+
+dotenv.config();
+
+const mongoURI = process.env.MONGO_URI;
+
+console.log(mongoURI);
 const app = express();
 const PORT = 4009;
 
-const { problemRouter } = require('./routes/problem');
+const connectDB = async () => {
+    try {
+        await mongoose.connect(mongoURI);
+        console.log('Successfully connected to MongoDB via Mongoose!');
+    } catch (error) {
+        console.log('MongoDB connection error:', error.message);
+        process.exit(1); //exit with failure
+    }
+};
+
+connectDB();
+
 
 app.use(express.urlencoded());
 
