@@ -14,10 +14,16 @@ const validateProblem = function ({
 
     if(samples.length === 0 || title === '' || statement === '' || inputFormat === '' || outputFormat === '' || constraints === '') {
         console.log("Not valid");
-        return false;
+        return {
+            success: false,
+            message: 'Problem validation failed'
+        }
     }
 
-    return true;
+    return {
+        success: true,
+        message: 'Problem validation successful'
+    }
 };
 
 problemRouter.get("/submit-form", (req, res, next) => {
@@ -43,15 +49,17 @@ problemRouter.get("/submit-form", (req, res, next) => {
 problemRouter.post("/submit", (req, res, next) => {
     console.log("Came to post a problem");
 
-    const isValid = validateProblem(req.body);
+    const validation = validateProblem(req.body);
 
-    if(isValid) {
-        const problem = new Problem(req.body);
-        console.log(problem);
-        return res.send(`<h1>Problem uploaded</h1>`);
+    if(!validation.success) {
+        res.status(400);
+        return res.send (`<h1>Problem upload failed, invalid data</h1>`);
     }
 
-    return res.send (`<h1>Problem upload failed, invalid data</h1>`)
+    const problem = new Problem(req.body);
+    console.log(problem);
+    res.status(201);
+    return res.send(`<h1>Problem uploaded</h1>`);
 });
 
 module.exports = { problemRouter };
