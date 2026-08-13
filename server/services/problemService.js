@@ -1,5 +1,7 @@
+const ProblemModel = require("../models/problemSchema");
+
 class ProblemService {
-    save (problemObject) {
+    saveProblem (problemObject) {
         //saves problemObject into database MongoDB
     }
 }
