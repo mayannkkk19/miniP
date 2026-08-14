@@ -1,7 +1,11 @@
 const express = require("express");
 const problemRouter = express.Router();
 
-Problem = require("../models/problem");
+const ProblemService = require('../services/problemService');
+const Problem = require("../models/problem");
+
+
+const problemService = new ProblemService();
 
 const validateProblem = function ({
     title,
@@ -58,6 +62,7 @@ problemRouter.post("/submit", (req, res, next) => {
 
     const problem = new Problem(req.body);
     console.log(problem);
+    problemService.saveProblem(problem);
     res.status(201);
     return res.send(`<h1>Problem uploaded</h1>`);
 });
