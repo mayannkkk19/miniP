@@ -50,7 +50,7 @@ problemRouter.get("/submit-form", (req, res, next) => {
     `);
 });
 
-problemRouter.post("/submit", (req, res, next) => {
+problemRouter.post("/submit", async (req, res, next) => {
     console.log("Came to post a problem");
 
     const validation = validateProblem(req.body);
@@ -61,8 +61,15 @@ problemRouter.post("/submit", (req, res, next) => {
     }
 
     const problem = new Problem(req.body);
-    console.log(problem);
-    problemService.saveProblem(problem);
+    //console.log(problem);
+
+    try{
+        await problemService.saveProblem(problem);
+    } catch (error) {
+        console.log(error.message);
+        res.status(400);
+        return res.send(`<h1>Problem upload failed, invalid data</h1>`)
+    }
     res.status(201);
     return res.send(`<h1>Problem uploaded</h1>`);
 });
