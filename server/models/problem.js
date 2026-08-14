@@ -1,4 +1,4 @@
-Problem = class {
+class Problem {
   constructor(
     {
         title,
