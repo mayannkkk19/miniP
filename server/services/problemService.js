@@ -1,6 +1,30 @@
 const ProblemModel = require("../models/problemSchema");
 
 class ProblemService {
+
+    validateProblem = function ({
+        title,
+        statement,
+        inputFormat,
+        outputFormat,
+        constraints,
+        samples,
+    }) {
+    
+        if(samples.length === 0 || title === '' || statement === '' || inputFormat === '' || outputFormat === '' || constraints.length === 0) {
+            console.log("Not valid");
+            return {
+                success: false,
+                message: 'Problem validation failed'
+            }
+        }
+    
+        return {
+            success: true,
+            message: 'Problem validation successful'
+        }
+    };
+
     async saveProblem (problemObject) {
         try {
             const newProblem = new ProblemModel(problemObject);
