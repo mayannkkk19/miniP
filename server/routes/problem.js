@@ -7,29 +7,6 @@ const Problem = require("../models/problem");
 
 const problemService = new ProblemService();
 
-const validateProblem = function ({
-    title,
-    statement,
-    inputFormat,
-    outputFormat,
-    constraints,
-    samples,
-}) {
-
-    if(samples.length === 0 || title === '' || statement === '' || inputFormat === '' || outputFormat === '' || constraints === '') {
-        console.log("Not valid");
-        return {
-            success: false,
-            message: 'Problem validation failed'
-        }
-    }
-
-    return {
-        success: true,
-        message: 'Problem validation successful'
-    }
-};
-
 problemRouter.get("/submit-form", (req, res, next) => {
     res.send(`
             <form action="/problem/submit" method="POST">
@@ -53,11 +30,14 @@ problemRouter.get("/submit-form", (req, res, next) => {
 problemRouter.post("/submit", async (req, res, next) => {
     console.log("Came to post a problem");
 
-    const validation = validateProblem(req.body);
+    const validation = problemService.validateProblem(req.body);
 
     if(!validation.success) {
+        console.log(validation.message);
         res.status(400);
         return res.send (`<h1>Problem upload failed, invalid data</h1>`);
+    }else{
+        console.log(validation.message);
     }
 
     const problem = new Problem(req.body);
