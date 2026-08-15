@@ -1,11 +1,7 @@
 const express = require("express");
 const problemRouter = express.Router();
 
-const ProblemService = require('../services/problemService');
-const Problem = require("../models/problem");
-
-
-const problemService = new ProblemService();
+const { saveProblem } = require('../controller/problemController');
 
 problemRouter.get("/submit-form", (req, res, next) => {
     res.send(`
@@ -27,31 +23,6 @@ problemRouter.get("/submit-form", (req, res, next) => {
     `);
 });
 
-problemRouter.post("/submit", async (req, res, next) => {
-    console.log("Came to post a problem");
-
-    const validation = problemService.validateProblem(req.body);
-
-    if(!validation.success) {
-        console.log(validation.message);
-        res.status(400);
-        return res.send (`<h1>Problem upload failed, invalid data</h1>`);
-    }else{
-        console.log(validation.message);
-    }
-
-    const problem = new Problem(req.body);
-    //console.log(problem);
-
-    try{
-        await problemService.saveProblem(problem);
-    } catch (error) {
-        console.log(error.message);
-        res.status(400);
-        return res.send(`<h1>Problem upload failed, invalid data</h1>`)
-    }
-    res.status(201);
-    return res.send(`<h1>Problem uploaded</h1>`);
-});
+problemRouter.post("/submit", saveProblem);
 
 module.exports = { problemRouter };
