@@ -1,9 +1,11 @@
 const Problem = require("../models/problem");
 const ProblemService = require('../services/problemService');
 const AiService = require('../services/aiService');
+const AnalysisService = require('../services/analysisService');
 
 const problemService = new ProblemService();
 const aiService = new AiService();
+const analysisService = new AnalysisService();
 
 exports.saveProblem = async (req, res, next) => {
     console.log("Came to post a problem");
@@ -25,7 +27,9 @@ exports.saveProblem = async (req, res, next) => {
         const problemObject = await problemService.saveProblem(problem);
         console.log(problemObject);
         //AiService.analyzeProblem(problemObject);
-        aiService.analyzeProblem(problemObject);
+        const analysis = await aiService.analyzeProblem(problemObject);
+        const analysisObject =  await analysisService.saveAnalysis({problemId: problemObject._id, ...analysis});
+        console.log(analysisObject);
     } catch (error) {
         console.log(error.message);
         res.status(400);
