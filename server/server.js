@@ -9,7 +9,6 @@ dotenv.config();
 
 const mongoURI = process.env.MONGO_URI;
 
-console.log(mongoURI);
 const app = express();
 const PORT = 4009;
 
@@ -25,7 +24,8 @@ const connectDB = async () => {
 
 connectDB();
 
-
+// unpack packets
+app.use(express.json());
 app.use(express.urlencoded());
 
 app.use((req, res, next) => {
