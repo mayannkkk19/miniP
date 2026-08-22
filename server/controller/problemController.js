@@ -8,8 +8,6 @@ const aiService = new AiService();
 const analysisService = new AnalysisService();
 
 exports.saveProblem = async (req, res, next) => {
-    console.log("Came to post a problem");
-
     const validation = problemService.validateProblem(req.body);
 
     if(!validation.success) {
